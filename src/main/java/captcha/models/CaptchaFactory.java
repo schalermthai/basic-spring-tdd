@@ -14,7 +14,7 @@ public class CaptchaFactory {
 		return c;
 	}
 
-	private Captcha generateCaptcha() {
+	protected Captcha generateCaptcha() {
 		int left = randomLeftOperand();
 		int right = randomRightOperand();
 		Operator op = randomOperator();
