@@ -18,7 +18,7 @@ import captcha.validators.CaptchaValidator;
 
 @Controller
 @Scope("prototype")
-public class CatchaController {
+public class CaptchaController {
 
 	private static final String FORM_OBJECT = "captchaForm";
 
