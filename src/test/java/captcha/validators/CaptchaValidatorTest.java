@@ -3,7 +3,9 @@ package captcha.validators;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 import org.springframework.validation.BeanPropertyBindingResult;
+import org.springframework.validation.Errors;
 
 import captcha.controllers.CaptchaForm;
 import captcha.models.Captcha;
@@ -14,21 +16,25 @@ import captcha.models.TextOperand;
 
 public class CaptchaValidatorTest {
 	
-	CaptchaFactory factory = new CaptchaFactory();
+	CaptchaFactory factory = Mockito.mock(CaptchaFactory.class);
+	
+	//unit under test
 	CaptchaValidator validator = new CaptchaValidator(factory);
 	
-	private Captcha captcha = new Captcha(new TextOperand(9), Operator.MINUS, new NumberOperand(3));
-	private CaptchaForm captchaForm;
-	private BeanPropertyBindingResult errors;
+	private CaptchaForm form;
+	private Errors errors;
 	
 	@Before
 	public void setup() {
 		
-		factory.getStorage().put(captcha.getId(), captcha);
-		captchaForm = new CaptchaForm();
-		captchaForm.setId(captcha.getId());
-		captchaForm.setQuestion(captcha.getText());
-		errors = new BeanPropertyBindingResult(captchaForm, "captchaForm");
+		Captcha captcha = new Captcha(new TextOperand(9), Operator.MINUS, new NumberOperand(3));
+
+		Mockito.when(factory.find(captcha.getId())).thenReturn(captcha);
+		
+		form = new CaptchaForm();
+		form.setId(captcha.getId());
+		form.setQuestion(captcha.getText());
+		errors = new BeanPropertyBindingResult(form, "captchaForm");
 	}
 	
 	@Test
@@ -40,10 +46,10 @@ public class CaptchaValidatorTest {
 	public void valid_correct_answer() {
 		
 		//given
-		captchaForm.setAnswer("6");
+		form.setAnswer("6");
 		
 		//when
-		validator.validate(captchaForm, errors);
+		validator.validate(form, errors);
 		
 		//then
 		Assert.assertFalse(errors.hasErrors());
@@ -53,10 +59,10 @@ public class CaptchaValidatorTest {
 	public void invalid_emptyAnswer() {
 		
 		//given
-		captchaForm.setAnswer("");
+		form.setAnswer("");
 		
 		//when
-		validator.validate(captchaForm, errors);
+		validator.validate(form, errors);
 		
 		//then
 		Assert.assertTrue(errors.hasErrors());
@@ -66,10 +72,10 @@ public class CaptchaValidatorTest {
 	public void invalid_badAnswerFormat() {
 		
 		//given
-		captchaForm.setAnswer("One");
+		form.setAnswer("One");
 		
 		//when
-		validator.validate(captchaForm, errors);
+		validator.validate(form, errors);
 		
 		//then
 		Assert.assertTrue(errors.hasErrors());
@@ -79,10 +85,10 @@ public class CaptchaValidatorTest {
 	public void invalid_wrongAnswer() {
 		
 		//given
-		captchaForm.setAnswer("2");
+		form.setAnswer("2");
 		
 		//when
-		validator.validate(captchaForm, errors);
+		validator.validate(form, errors);
 		
 		//then
 		Assert.assertTrue(errors.hasErrors());
@@ -92,11 +98,11 @@ public class CaptchaValidatorTest {
 	public void invalid_unknownCaptchaId() {
 		
 		//given
-		captchaForm.setId("unknown");
-		captchaForm.setAnswer("6");
+		form.setId("unknown");
+		form.setAnswer("6");
 		
 		//when
-		validator.validate(captchaForm, errors);
+		validator.validate(form, errors);
 		
 		//then
 		Assert.assertTrue(errors.hasErrors());

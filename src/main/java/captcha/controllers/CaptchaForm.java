@@ -1,20 +1,11 @@
 package captcha.controllers;
 
-import org.hibernate.validator.constraints.NotEmpty;
-
 public class CaptchaForm {
 
-	@NotEmpty
 	private String id;
-	
-	@NotEmpty
 	private String answer;
-	
 	private String question;
 	
-	public CaptchaForm() {
-	}
-
 	public String getId() {
 		return id;
 	}

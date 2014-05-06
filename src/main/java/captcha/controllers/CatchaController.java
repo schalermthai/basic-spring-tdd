@@ -48,7 +48,7 @@ public class CatchaController {
 
 		return SUCCESS_PAGE;
 	}
-
+	
 	private void setupCaptchaForm(CaptchaForm captchaForm, Model model) {
 		captchaForm.setId(captcha.getId());
 		captchaForm.setQuestion(captcha.getText());

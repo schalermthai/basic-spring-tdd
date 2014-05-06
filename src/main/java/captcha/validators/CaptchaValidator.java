@@ -24,19 +24,29 @@ public class CaptchaValidator implements Validator {
 	}
 
 	public void validate(Object target, Errors errors) {
+
 		CaptchaForm form = (CaptchaForm) target;
+		Captcha quiz = captchaFactory.find(form.getId());
 		
-		Captcha captcha = captchaFactory.getStorage().get(form.getId());
-		if (captcha == null || isValidAnswer(errors, form, captcha) == false) {
+		if (hasError(quiz, form.getAnswer())) {
 			errors.rejectValue("answer", "captcha.answer.invalid", "invalid input");
 		}
 	}
 
-	private boolean isValidAnswer(Errors errors, CaptchaForm form, Captcha captcha) {
+	private boolean hasError(Captcha quiz, String answer) {
+		return isUnknownCaptcha(quiz) || hasBadAnswer(quiz, answer);
+	}
+	
+	private boolean isUnknownCaptcha(Captcha questionCaptcha) {
+		return questionCaptcha == null;
+	}
+
+	private boolean hasBadAnswer(Captcha captcha, String answer) {
 		try {
-			return captcha.isCorrect(Integer.parseInt(form.getAnswer()));
-		} catch(NumberFormatException ex) {
-			return false;
+			return !captcha.isCorrect(Integer.parseInt(answer));
+		}
+		catch (NumberFormatException ex) {
+			return true;
 		}
 	}
 }

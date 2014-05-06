@@ -46,6 +46,10 @@ public class CaptchaFactory {
 	public WeakHashMap<String, Captcha> getStorage() {
 		return storage;
 	}
+	
+	public Captcha find(String id) {
+		return storage.get(id);
+	}
 
 
 }
