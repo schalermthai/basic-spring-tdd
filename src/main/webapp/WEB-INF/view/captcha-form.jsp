@@ -45,7 +45,7 @@
 	<div class="container">
 	
 		<form:form class="form-captcha" commandName="captchaForm" action="captcha" method='POST'>
-			<h2>${ captchaQuestion }</h2>
+			<h2>${ captchaForm.question }</h2>
 			<form:input path="answer" /><br/>
 			<form:errors path="answer" cssClass="alert alert-error" />
 			<br />

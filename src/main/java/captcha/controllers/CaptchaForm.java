@@ -10,13 +10,11 @@ public class CaptchaForm {
 	@NotEmpty
 	private String answer;
 	
-    public CaptchaForm(String id) {
-    	this.id = id;
-    }
-    
-    public CaptchaForm() {
-	}
+	private String question;
 	
+	public CaptchaForm() {
+	}
+
 	public String getId() {
 		return id;
 	}
@@ -31,6 +29,14 @@ public class CaptchaForm {
 	
 	public String getAnswer() {
 		return answer;
+	}
+	
+	public String getQuestion() {
+		return question;
+	}
+	
+	public void setQuestion(String question) {
+		this.question = question;
 	}
 	
 }

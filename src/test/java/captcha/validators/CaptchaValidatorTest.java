@@ -25,7 +25,9 @@ public class CaptchaValidatorTest {
 	public void setup() {
 		
 		factory.getStorage().put(captcha.getId(), captcha);
-		captchaForm = new CaptchaForm(captcha.getId());
+		captchaForm = new CaptchaForm();
+		captchaForm.setId(captcha.getId());
+		captchaForm.setQuestion(captcha.getText());
 		errors = new BeanPropertyBindingResult(captchaForm, "captchaForm");
 	}
 	

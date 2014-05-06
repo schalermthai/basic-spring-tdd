@@ -20,6 +20,12 @@ import captcha.validators.CaptchaValidator;
 @Scope("prototype")
 public class CatchaController {
 
+	private static final String FORM_OBJECT = "captchaForm";
+
+	private static final String FORM_PAGE = "captcha-form";
+	private static final String SUCCESS_PAGE = "captcha-correct";
+
+
 	@Autowired
 	Captcha captcha;
 	
@@ -28,19 +34,25 @@ public class CatchaController {
 
 	@RequestMapping(value = "/captcha", method = RequestMethod.GET)
 	public String show(Model model) {
-		setCaptchaModel(model, new CaptchaForm());
-		return "captchaForm";
+		setupCaptchaForm(new CaptchaForm(), model);
+		return FORM_PAGE;
 	}
 
 	@RequestMapping(value = "/captcha", method = RequestMethod.POST)
-	public String login(@Valid @ModelAttribute("captchaForm") CaptchaForm captchaForm, Errors errors, Model model) {
+	public String login(@Valid @ModelAttribute(FORM_OBJECT) CaptchaForm captchaForm, Errors errors, Model model) {
 
 		if (errors.hasErrors()) {
-			setCaptchaModel(model, captchaForm);
-			return "captchaForm";
+			setupCaptchaForm(captchaForm, model);
+			return FORM_PAGE;
 		}
 
-		return "captchaCorrect";
+		return SUCCESS_PAGE;
+	}
+
+	private void setupCaptchaForm(CaptchaForm captchaForm, Model model) {
+		captchaForm.setId(captcha.getId());
+		captchaForm.setQuestion(captcha.getText());
+		model.addAttribute(FORM_OBJECT, captchaForm);
 	}
 
 	@InitBinder
@@ -48,10 +60,5 @@ public class CatchaController {
 		binder.setValidator(captchaValidator);
 	}
 	
-	private void setCaptchaModel(Model model, CaptchaForm captchaForm) {
-		captchaForm.setId(captcha.getId());
-		model.addAttribute("captchaForm", captchaForm);
-		model.addAttribute("captchaQuestion", captcha.getText());
-	}
 	
 }

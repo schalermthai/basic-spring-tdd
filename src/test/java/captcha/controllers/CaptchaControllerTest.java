@@ -54,10 +54,10 @@ public class CaptchaControllerTest {
     	
     	mockMvc.perform(get("/captcha"))
 	        .andExpect(status().isOk())
-	        .andExpect(view().name("captchaForm"))
-	        .andExpect(forwardedUrl("/WEB-INF/view/captchaForm.jsp"))
+	        .andExpect(view().name("captcha-form"))
+	        .andExpect(forwardedUrl("/WEB-INF/view/captcha-form.jsp"))
 	        .andExpect(model().attribute("captchaForm", hasProperty("id")))
-	        .andExpect(model().attribute("captchaQuestion", equalTo("Five + 2 = ?")));
+	        .andExpect(model().attribute("captchaForm", hasProperty("question", equalTo("Five + 2 = ?"))));
     }
     
     @Test
@@ -73,14 +73,14 @@ public class CaptchaControllerTest {
     
     @Test
     public void post_invalidCaptcha_rerenderQuestion() throws Exception {
-    	
+    		
     	mockMvc.perform(post("/captcha")
     			.param("id", expectedCaptcha.getId())
     			.param("answer", "2"))
 	        .andExpect(model().hasErrors())
-	        .andExpect(view().name("captchaForm"))
+	        .andExpect(view().name("captcha-form"))
 	        .andExpect(model().attribute("captchaForm", hasProperty("id")))
-	        .andExpect(model().attribute("captchaQuestion", equalTo("Five + 2 = ?")));
+	        .andExpect(model().attribute("captchaForm", hasProperty("question", equalTo("Five + 2 = ?"))));
     }
     
     @Test
@@ -90,8 +90,8 @@ public class CaptchaControllerTest {
     			.param("id", expectedCaptcha.getId())
     			.param("answer", "7"))
 	        .andExpect(status().isOk())
-	        .andExpect(view().name("captchaCorrect"))
-	        .andExpect(forwardedUrl("/WEB-INF/view/captchaCorrect.jsp"));
+	        .andExpect(view().name("captcha-correct"))
+	        .andExpect(forwardedUrl("/WEB-INF/view/captcha-correct.jsp"));
     }
     
     @Configuration
