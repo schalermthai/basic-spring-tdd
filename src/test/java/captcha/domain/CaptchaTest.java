@@ -1,12 +1,12 @@
-package captcha.models;
+package captcha.domain;
 
 import org.junit.Assert;
 import org.junit.Test;
 
-import captcha.models.Captcha;
-import captcha.models.NumberOperand;
-import captcha.models.Operator;
-import captcha.models.TextOperand;
+import captcha.domain.Captcha;
+import captcha.domain.NumberOperand;
+import captcha.domain.Operator;
+import captcha.domain.TextOperand;
 
 public class CaptchaTest {
 

@@ -1,9 +1,9 @@
-package captcha.models;
+package captcha.domain;
 
 import org.junit.Assert;
 import org.junit.Test;
 
-import captcha.models.TextOperand;
+import captcha.domain.TextOperand;
 
 public class TextOperandTest {
 

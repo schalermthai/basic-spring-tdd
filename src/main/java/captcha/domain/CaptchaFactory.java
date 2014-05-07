@@ -1,4 +1,4 @@
-package captcha.models;
+package captcha.domain;
 
 import java.util.Random;
 import java.util.WeakHashMap;

@@ -1,4 +1,4 @@
-package captcha.models;
+package captcha.domain;
 
 public enum Operator {
 	PLUS("+"), MINUS("-"), MULTIPLY("*");

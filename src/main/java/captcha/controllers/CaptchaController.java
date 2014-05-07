@@ -13,7 +13,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import captcha.models.Captcha;
+import captcha.domain.Captcha;
+import captcha.models.CaptchaForm;
 import captcha.validators.CaptchaValidator;
 
 @Controller
@@ -39,7 +40,7 @@ public class CaptchaController {
 	}
 
 	@RequestMapping(value = "/captcha", method = RequestMethod.POST)
-	public String login(@Valid @ModelAttribute(FORM_OBJECT) CaptchaForm captchaForm, Errors errors, Model model) {
+	public String answer(@Valid @ModelAttribute(FORM_OBJECT) CaptchaForm captchaForm, Errors errors, Model model) {
 
 		if (errors.hasErrors()) {
 			setupCaptchaForm(captchaForm, model);

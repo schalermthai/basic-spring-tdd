@@ -1,4 +1,4 @@
-package captcha.controllers;
+package captcha.models;
 
 public class CaptchaForm {
 

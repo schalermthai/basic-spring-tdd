@@ -7,12 +7,12 @@ import org.mockito.Mockito;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.Errors;
 
-import captcha.controllers.CaptchaForm;
-import captcha.models.Captcha;
-import captcha.models.CaptchaFactory;
-import captcha.models.NumberOperand;
-import captcha.models.Operator;
-import captcha.models.TextOperand;
+import captcha.domain.Captcha;
+import captcha.domain.CaptchaFactory;
+import captcha.domain.NumberOperand;
+import captcha.domain.Operator;
+import captcha.domain.TextOperand;
+import captcha.models.CaptchaForm;
 
 public class CaptchaValidatorTest {
 	

@@ -25,11 +25,11 @@ import org.springframework.web.context.WebApplicationContext;
 
 import captcha.configs.WebConfig;
 import captcha.controllers.CaptchaControllerTest.TestCapchaConfig;
-import captcha.models.Captcha;
-import captcha.models.CaptchaFactory;
-import captcha.models.NumberOperand;
-import captcha.models.Operator;
-import captcha.models.TextOperand;
+import captcha.domain.Captcha;
+import captcha.domain.CaptchaFactory;
+import captcha.domain.NumberOperand;
+import captcha.domain.Operator;
+import captcha.domain.TextOperand;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration

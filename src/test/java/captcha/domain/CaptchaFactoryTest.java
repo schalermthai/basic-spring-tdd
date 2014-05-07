@@ -1,11 +1,11 @@
-package captcha.models;
+package captcha.domain;
 
 import org.junit.Assert;
 import org.junit.Test;
 
-import captcha.models.Captcha;
-import captcha.models.CaptchaFactory;
-import captcha.models.Operator;
+import captcha.domain.Captcha;
+import captcha.domain.CaptchaFactory;
+import captcha.domain.Operator;
 
 public class CaptchaFactoryTest {
 

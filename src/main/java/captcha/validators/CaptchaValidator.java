@@ -5,9 +5,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-import captcha.controllers.CaptchaForm;
-import captcha.models.Captcha;
-import captcha.models.CaptchaFactory;
+import captcha.domain.Captcha;
+import captcha.domain.CaptchaFactory;
+import captcha.models.CaptchaForm;
 
 @Component
 public class CaptchaValidator implements Validator {
