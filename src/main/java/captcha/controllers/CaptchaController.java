@@ -31,8 +31,9 @@ public class CaptchaController {
 	Captcha captcha;
 	
 	@Autowired
-	CaptchaValidator captchaValidator;
-
+	CaptchaValidator validator;
+	
+	
 	@RequestMapping(value = "/captcha", method = RequestMethod.GET)
 	public String show(Model model) {
 		setupCaptchaForm(new CaptchaForm(), model);
@@ -41,15 +42,15 @@ public class CaptchaController {
 
 	@RequestMapping(value = "/captcha", method = RequestMethod.POST)
 	public String answer(@Valid @ModelAttribute(FORM_OBJECT) CaptchaForm captchaForm, Errors errors, Model model) {
-
 		if (errors.hasErrors()) {
 			setupCaptchaForm(captchaForm, model);
 			return FORM_PAGE;
 		}
-
+		
 		return SUCCESS_PAGE;
 	}
 	
+
 	private void setupCaptchaForm(CaptchaForm captchaForm, Model model) {
 		captchaForm.setId(captcha.getId());
 		captchaForm.setQuestion(captcha.getText());
@@ -57,9 +58,8 @@ public class CaptchaController {
 	}
 
 	@InitBinder
-	protected void initBinder(WebDataBinder binder) {
-		binder.setValidator(captchaValidator);
+	public void initBinder(WebDataBinder binder) {
+		binder.setValidator(validator);
 	}
-	
 	
 }

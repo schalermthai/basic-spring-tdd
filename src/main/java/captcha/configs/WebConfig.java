@@ -11,7 +11,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupp
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 @Configuration
-@ComponentScan(basePackages = {"captcha.controllers", "captcha.validators"})
+@ComponentScan(basePackages = {"captcha.controllers"})
 public class WebConfig extends WebMvcConfigurationSupport {
 
     private static final String VIEWS = "/WEB-INF/view/";

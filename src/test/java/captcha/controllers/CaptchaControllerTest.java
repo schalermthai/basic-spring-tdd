@@ -30,6 +30,7 @@ import captcha.domain.CaptchaFactory;
 import captcha.domain.NumberOperand;
 import captcha.domain.Operator;
 import captcha.domain.TextOperand;
+import captcha.validators.CaptchaValidator;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
@@ -93,13 +94,54 @@ public class CaptchaControllerTest {
 	        .andExpect(view().name("captcha-correct"))
 	        .andExpect(forwardedUrl("/WEB-INF/view/captcha-correct.jsp"));
     }
+ 
+    @Test
+    public void post_invalidCaptcha_stayOnSamePage() throws Exception {
+    	mockMvc.perform(post("/captcha")
+    			.param("id", expectedCaptcha.getId())
+    			.param("answer", "2"))
+    		.andExpect(view().name("captcha-form"));
+    }
+    
+    @Test
+    public void post_invalidCaptcha_reask() throws Exception {
+    	mockMvc.perform(post("/captcha")
+    			.param("id", expectedCaptcha.getId())
+    			.param("answer", "2"))
+    		.andExpect(model().attribute("captchaForm", hasProperty("question", equalTo("Five + 2 = ?"))));
+    }
+    
+    @Test
+    public void post_invalidCaptcha_hasErrorInAnswer() throws Exception {
+    	mockMvc.perform(post("/captcha")
+    			.param("id", expectedCaptcha.getId())
+    			.param("answer", "2"))
+    		.andExpect(model().attributeHasFieldErrors("captchaForm", "answer"));
+    }
+    
+    @Test
+    public void post_invalidCaptcha_unknownId() throws Exception {
+    	mockMvc.perform(post("/captcha")
+    			.param("id", "UNKNOWN ID")
+    			.param("answer", "7"))
+    		.andExpect(model().attributeHasFieldErrors("captchaForm", "answer"));
+    }
+    
+    @Test
+    public void post_invalidCaptcha_NotNumberAnswer() throws Exception {
+    	mockMvc.perform(post("/captcha")
+    			.param("id", expectedCaptcha.getId())
+    			.param("answer", "Seven"))
+    		.andExpect(model().attributeHasFieldErrors("captchaForm", "answer"));
+    }
+    
     
     @Configuration
     public static class TestCapchaConfig {
 
     	@Bean
     	@Scope("singleton")
-    	public CaptchaFactory captchaFactory() {
+    	public CaptchaFactory factory() {
     		return new CaptchaFactory() {
     			@Override
     			protected Captcha generateCaptcha() {
@@ -107,13 +149,17 @@ public class CaptchaControllerTest {
     			}
     		};
     	}
-
+    	
     	@Bean
     	@Scope("prototype")
     	public Captcha captcha() {
-    		return captchaFactory().random();
+    		return factory().random();
     	}
     	
+    	@Bean
+    	public CaptchaValidator validator() {
+    		return new CaptchaValidator(factory());
+    	}
     }
 
 
