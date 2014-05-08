@@ -26,7 +26,6 @@ import org.springframework.web.context.WebApplicationContext;
 import captcha.configs.WebConfig;
 import captcha.controllers.CaptchaControllerTest.TestCapchaConfig;
 import captcha.domain.Captcha;
-import captcha.domain.CaptchaFactory;
 import captcha.domain.NumberOperand;
 import captcha.domain.Operator;
 import captcha.domain.TextOperand;
@@ -61,29 +60,6 @@ public class CaptchaControllerTest {
     }
     
     @Test
-    public void post_validateCaptcha_fail() throws Exception {
-    	
-    	mockMvc.perform(post("/captcha")
-    			.param("id", expectedCaptcha.getId())
-    			.param("answer", "2"))
-	        .andExpect(status().isOk())
-	        .andExpect(model().hasErrors())
-	        .andExpect(model().attributeHasFieldErrors("captchaForm", "answer"));
-    }
-    
-    @Test
-    public void post_invalidCaptcha_rerenderQuestion() throws Exception {
-    		
-    	mockMvc.perform(post("/captcha")
-    			.param("id", expectedCaptcha.getId())
-    			.param("answer", "2"))
-	        .andExpect(model().hasErrors())
-	        .andExpect(view().name("captcha-form"))
-	        .andExpect(model().attribute("captchaForm", hasProperty("id")))
-	        .andExpect(model().attribute("captchaForm", hasProperty("question", equalTo("Five + 2 = ?"))));
-    }
-    
-    @Test
     public void post_correctCaptcha_navigateToSuccessPage() throws Exception {
     	
     	mockMvc.perform(post("/captcha")
@@ -96,26 +72,12 @@ public class CaptchaControllerTest {
     
     @Configuration
     public static class TestCapchaConfig {
-
-    	@Bean
-    	@Scope("singleton")
-    	public CaptchaFactory captchaFactory() {
-    		return new CaptchaFactory() {
-    			@Override
-    			protected Captcha generateCaptcha() {
-    				return new Captcha(new TextOperand(5), Operator.PLUS, new NumberOperand(2));
-    			}
-    		};
-    	}
-
+    	
     	@Bean
     	@Scope("prototype")
     	public Captcha captcha() {
-    		return captchaFactory().random();
+    		return  new Captcha(new TextOperand(5), Operator.PLUS, new NumberOperand(2));
     	}
-    	
     }
-
-
 
 }

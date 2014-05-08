@@ -12,13 +12,14 @@ public class CaptchaConfig {
 	
 	@Bean
 	@Scope("singleton")
-	public CaptchaFactory captchaFactory() {
+	public CaptchaFactory factory() {
 		return new CaptchaFactory();
 	}
 
 	@Bean
 	@Scope("prototype")
 	public Captcha captcha() {
-		return captchaFactory().random();
+		return factory().random();
 	}
+	
 }
