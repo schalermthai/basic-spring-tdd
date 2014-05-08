@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Scope;
 
 import captcha.domain.Captcha;
 import captcha.domain.CaptchaFactory;
-import captcha.validators.CaptchaValidator;
 
 @Configuration
 public class CaptchaConfig {
@@ -21,11 +20,6 @@ public class CaptchaConfig {
 	@Scope("prototype")
 	public Captcha captcha() {
 		return factory().random();
-	}
-	
-	@Bean
-	public CaptchaValidator validator() {
-		return new CaptchaValidator(factory());
 	}
 	
 }
