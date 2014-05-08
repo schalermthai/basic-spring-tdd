@@ -1,6 +1,6 @@
 package captcha.controllers;
 
-import captcha.models.CaptchaValidator;
+import captcha.validators.CaptchaValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -29,10 +29,11 @@ public class CaptchaController {
 	@Autowired
 	Captcha captcha;
 
-    @Autowired
-    private CaptchaValidator validator;
-
-    @RequestMapping(value = "/captcha", method = RequestMethod.GET)
+	@Autowired
+    CaptchaValidator validator;
+	
+	
+	@RequestMapping(value = "/captcha", method = RequestMethod.GET)
 	public String show(Model model) {
 		setupCaptchaForm(new CaptchaForm(), model);
 		return FORM_PAGE;
@@ -53,10 +54,9 @@ public class CaptchaController {
         binder.setValidator(validator);
     }
 
-    private void setupCaptchaForm(CaptchaForm captchaForm, Model model) {
+	private void setupCaptchaForm(CaptchaForm captchaForm, Model model) {
 		captchaForm.setId(captcha.getId());
 		captchaForm.setQuestion(captcha.getText());
 		model.addAttribute(FORM_OBJECT, captchaForm);
 	}
-	
 }
