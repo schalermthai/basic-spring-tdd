@@ -42,7 +42,7 @@ public class CaptchaControllerTest {
 
     @Autowired
     Captcha expectedCaptcha;
-    
+
     @Before
     public void setUp() {
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
