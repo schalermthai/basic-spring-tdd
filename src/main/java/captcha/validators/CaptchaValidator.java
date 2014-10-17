@@ -43,7 +43,6 @@ public class CaptchaValidator implements Validator {
 		} catch(NumberFormatException ex) {
 			return true;
 		}
-		
 	}
 
 }

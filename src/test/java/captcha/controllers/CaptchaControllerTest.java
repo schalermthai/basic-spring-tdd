@@ -1,15 +1,11 @@
 package captcha.controllers;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.hasProperty;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-
+import captcha.configs.WebConfig;
+import captcha.controllers.CaptchaControllerTest.TestCapchaConfig;
+import captcha.domain.Captcha;
+import captcha.domain.CaptchaFactory;
 import captcha.domain.CaptchaGenerator;
+import captcha.domain.Operator;
 import captcha.validators.CaptchaValidator;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,11 +22,13 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import captcha.configs.WebConfig;
-import captcha.controllers.CaptchaControllerTest.TestCapchaConfig;
-import captcha.domain.Captcha;
-import captcha.domain.Operator;
-import captcha.domain.CaptchaFactory;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasProperty;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
@@ -64,9 +62,7 @@ public class CaptchaControllerTest {
     @Test
     public void post_correctCaptcha_navigateToSuccessPage() throws Exception {
     	
-    	mockMvc.perform(post("/captcha")
-    			.param("id", expectedCaptcha.getId())
-    			.param("answer", "7"))
+    	postCaptcha("7")
 	        .andExpect(status().isOk())
 	        .andExpect(view().name("captcha-correct"))
 	        .andExpect(forwardedUrl("/WEB-INF/view/captcha-correct.jsp"));
