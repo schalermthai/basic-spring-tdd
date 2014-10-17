@@ -27,7 +27,7 @@ public class Captcha {
 	}
 
 	public String getText() {
-		return String.format("%s %s %s = ?", leftOperand.toText(), operator.getSign(), rightOperand.toText());
+		return String.format("%s %s %s = ?", leftOperand.toText(), operator.getSymbol(), rightOperand.toText());
 	}
 
 	public String getId() {

@@ -1,5 +1,6 @@
 package captcha.configs;
 
+import captcha.domain.CaptchaGenerator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
@@ -13,7 +14,7 @@ public class CaptchaConfig {
 	@Bean
 	@Scope("singleton")
 	public CaptchaFactory factory() {
-		return new CaptchaFactory();
+		return new CaptchaFactory(new CaptchaGenerator());
 	}
 
 	@Bean

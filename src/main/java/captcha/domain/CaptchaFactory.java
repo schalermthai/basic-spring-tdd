@@ -4,52 +4,33 @@ import java.util.Random;
 import java.util.WeakHashMap;
 
 public class CaptchaFactory {
-	
-	Random randomizer = new Random(System.nanoTime());
+
+    private final CaptchaGenerator generator;
 	private WeakHashMap<String, Captcha> storage = new WeakHashMap<String, Captcha>();
 
+    public CaptchaFactory(CaptchaGenerator generator) {
+        this.generator = generator;
+    }
+
 	public Captcha random() {
-		Captcha c = generateCaptcha();
-		storage.put(c.getId(), c);
-		return c;
+		Captcha captcha = generateCaptcha();
+		storage.put(captcha.getId(), captcha);
+		return captcha;
 	}
 
 	protected Captcha generateCaptcha() {
-		int left = randomLeftOperand();
-		int right = randomRightOperand();
-		Operator op = randomOperator();
+		int left = generator.randomLeftOperand();
+		int right = generator.randomRightOperand();
+		Operator op = generator.randomOperator();
 		
-		if (isStartWithText()) {
+		if (generator.isStartWithText()) {
 			return new Captcha(new TextOperand(left), op, new NumberOperand(right));
 		} else {
 			return new Captcha(new NumberOperand(left), op, new TextOperand(right));
 		}
 	}
 
-	protected int randomRightOperand() {
-		return randomizer.nextInt(10);
-	}
-
-	protected int randomLeftOperand() {
-		return randomRightOperand();
-	}
-
-	protected Operator randomOperator() {
-		Operator[] ops = Operator.values();
-		return ops[randomizer.nextInt(ops.length)];
-	}
-	
-	protected boolean isStartWithText() {
-		return randomizer.nextBoolean();
-	}
-	
-	public WeakHashMap<String, Captcha> getStorage() {
-		return storage;
-	}
-	
 	public Captcha find(String id) {
 		return storage.get(id);
 	}
-
-
 }

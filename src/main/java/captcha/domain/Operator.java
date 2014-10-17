@@ -3,14 +3,14 @@ package captcha.domain;
 public enum Operator {
 	PLUS("+"), MINUS("-"), MULTIPLY("*");
 	
-	private String sign;
+	private String symbol;
 
-	Operator(String sign) {
-		this.sign = sign;
+	Operator(String symbol) {
+		this.symbol = symbol;
 	}
 	
-	public String getSign() {
-		return sign;
+	public String getSymbol() {
+		return symbol;
 	}
 
 	public int calculate(int leftOperand, int rightOperand) {

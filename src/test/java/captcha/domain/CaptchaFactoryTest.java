@@ -11,11 +11,11 @@ public class CaptchaFactoryTest {
 
 	@Test
 	public void test() {
-		Captcha captcha = new MockCaptchaFactory().random();
+		Captcha captcha = new CaptchaFactory(new StubCaptchaGenerator()).random();
 		Assert.assertEquals("One + 9 = ?", captcha.getText());
 	}
 	
-	private class MockCaptchaFactory extends CaptchaFactory {
+	private class StubCaptchaGenerator extends CaptchaGenerator {
 		
 		@Override
 		protected boolean isStartWithText() {
