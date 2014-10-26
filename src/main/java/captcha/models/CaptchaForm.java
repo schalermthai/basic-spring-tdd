@@ -1,5 +1,7 @@
 package captcha.models;
 
+import captcha.domain.Captcha;
+
 public class CaptchaForm {
 
 	private String id;
@@ -29,5 +31,21 @@ public class CaptchaForm {
 	public void setQuestion(String question) {
 		this.question = question;
 	}
+
+    public boolean isValid(Captcha quiz) {
+        return knownQuiz(quiz) && validAnswer(quiz);
+    }
+
+    private boolean knownQuiz(Captcha quiz) {
+        return quiz != null;
+    }
+
+    private boolean validAnswer(Captcha quiz) {
+        try {
+            return quiz.isCorrect(Integer.parseInt(getAnswer()));
+        } catch(NumberFormatException ex) {
+            return false;
+        }
+    }
 	
 }

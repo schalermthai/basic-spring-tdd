@@ -23,26 +23,10 @@ public class CaptchaValidator implements Validator {
 
 	public void validate(Object target, Errors errors) {
 		CaptchaForm form = (CaptchaForm) target;
-		if (hasErrors(form)) {
+        Captcha quiz = factory.find(form.getId());
+
+        if (!form.isValid(quiz)) {
 			errors.rejectValue("answer", "captcha.answer.invalid", "Invalid input");
 		}
 	}
-	
-	private boolean hasErrors(CaptchaForm captchaForm) {
-		Captcha quiz = factory.find(captchaForm.getId());
-		return badQuiz(quiz) || badAnswer(captchaForm, quiz);
-	}
-
-	private boolean badQuiz(Captcha quiz) {
-		return quiz == null;
-	}
-
-	private boolean badAnswer(CaptchaForm captchaForm, Captcha quiz) {
-		try {
-			return !quiz.isCorrect(Integer.parseInt(captchaForm.getAnswer()));
-		} catch(NumberFormatException ex) {
-			return true;
-		}
-	}
-
 }
