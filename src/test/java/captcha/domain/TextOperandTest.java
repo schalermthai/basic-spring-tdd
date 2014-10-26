@@ -9,10 +9,17 @@ public class TextOperandTest {
 
 	@Test
 	public void testTextOperand_value() {
-		TextOperand operand = new TextOperand(2);
-		Assert.assertEquals(2, operand.getValue());
+		Assert.assertEquals(1, new TextOperand(1).getValue());
+        Assert.assertEquals(2, new TextOperand(2).getValue());
+        Assert.assertEquals(3, new TextOperand(3).getValue());
+        Assert.assertEquals(4, new TextOperand(4).getValue());
+        Assert.assertEquals(5, new TextOperand(5).getValue());
+        Assert.assertEquals(6, new TextOperand(6).getValue());
+        Assert.assertEquals(7, new TextOperand(7).getValue());
+        Assert.assertEquals(8, new TextOperand(8).getValue());
+        Assert.assertEquals(9, new TextOperand(9).getValue());
 	}
-	
+
 	@Test
 	public void testTextOperand_text() {
 		Assert.assertEquals("Zero", new TextOperand(0).toText());
