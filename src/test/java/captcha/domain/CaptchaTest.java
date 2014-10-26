@@ -39,4 +39,16 @@ public class CaptchaTest {
 		Captcha captcha = new Captcha(new TextOperand(1), Operator.MULTIPLY, new NumberOperand(1));
 		Assert.assertEquals(1, captcha.getAnswer());
 	}
+
+    @Test
+    public void isCorrect_validResult() {
+        Captcha captcha = new Captcha(new TextOperand(1), Operator.PLUS, new NumberOperand(1));
+        Assert.assertTrue(captcha.isCorrect(2));
+    }
+
+    @Test
+    public void isCorrect_invalidResult() {
+        Captcha captcha = new Captcha(new TextOperand(1), Operator.PLUS, new NumberOperand(1));
+        Assert.assertFalse(captcha.isCorrect(0));
+    }
 }
